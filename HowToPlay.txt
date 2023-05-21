@@ -1,0 +1,42 @@
+Executable is at Coup_VolterTestProject\Coup_TestProject\Builds\Coup_TestProject.exe
+------------------------------------------------------------------
+
+Generic turn description:
+
+The player (p1) whos turn it is will randomly pick an action
+	-Coup and assassination are only availble if the player has enough money
+	-When player has 10+ coins, only Coup is available
+
+All other players have 4 seconds to randomly decide to ignore, challenge, or counteract
+	-some actions cannot be challenged, and some cannot be counteracted
+
+If all other players ignore:
+	-p1's action succeeds
+If another player challenges p1's ability to use action:
+	-p1 reveals a card.
+		-if correct card, challenger loses influence and p1's action succeeds
+		-if incorrect card, p1 loses influence and p1's action fails
+If another player uses a counteraction:
+	-All other players have a will randomly decide to ignore or challenge
+		-If all other players ignore:
+			-p1's action fails
+		-If another player challenges counteractor's ability to use counteraction:
+			-counteractor reveals a card.
+				-if correct card, challenger loses influence and p1's action fails
+				-if incorrect card, counteractor loses influence and p1's action succeeds
+
+Once a turn is complete, play moves on to next player
+------------------------------------------------------------------
+
+For the human player (bottom of screen), all actions, challenges, and counter actions are issued at the bottom left of the screen. If the human player is challenged, they can click on one of their active cards to reveal it. Some actions also require the human player to click on another player's game mat to target them.
+
+When an action is unavailable, the button darkens. This is a little confusing for the Assassinate button (unavailable with less than 3 coins), because that button is already dark with white text. So, just a heads up!
+
+At the top left of the screen, there is an event log that displays each player's action,challenge, counteraction, etc.
+------------------------------------------------------------------
+
+A note on Exchange:
+In the traditional game, when a player uses Exchange, they are meant to draw 2 new cards from the deck. They then add those to the cards they already have, pick 2 of these 4 cards to keep, and put the other 2 back in the deck. It got to the point in the project where it would take too much time to add the unique funtionality of drawing 2 new cards and picking between the 4. What I ended up doing was just replacing the 2 cards the player has with 2 new cards. 
+
+A note on choosing which card to lose:
+When I got close to end of time, I decided to simplify losing influence for the human player. Instead of being able to choose which card to lose, the game now chooses randomly. 

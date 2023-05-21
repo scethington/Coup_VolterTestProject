@@ -28,6 +28,7 @@ public class TurnManager : MonoBehaviour
     bool actionBlockAttempted;
     bool counteractionBlockAttempted;
     bool gameOver;
+    bool waitingForInfluenceLoss;
 
     private void Awake()
     {
@@ -188,12 +189,14 @@ public class TurnManager : MonoBehaviour
             {
                 CardReveal?.Invoke(player);
                 currentChallenger.LoseInfluence();
+                waitingForInfluenceLoss = true;
                 ActionSuccess();
             }
             else
             {
                 PlayerLied?.Invoke(currentPlayer.playerName);
                 currentPlayer.LoseInfluence();
+                waitingForInfluenceLoss = true;
                 ActionFailed(true);
             }
         }
@@ -206,12 +209,14 @@ public class TurnManager : MonoBehaviour
                 CardReveal?.Invoke(currentCounteractor.playerName);
                 PlayerBlocked?.Invoke(currentPlayer.playerName);
                 currentChallenger.LoseInfluence();
+                waitingForInfluenceLoss = true;
                 ActionFailed(false);
             }
             else
             {
                 PlayerLied?.Invoke(currentCounteractor.playerName);
                 currentCounteractor.LoseInfluence();
+                waitingForInfluenceLoss = true;
                 ActionSuccess();
             }
         }
@@ -220,22 +225,14 @@ public class TurnManager : MonoBehaviour
     //player has chosen who to lose, and game can continue
     void PlayerLostInfluence(PlayerController player)
     {
-        /*if (phaseNum == 2)
-        {
-            if (player == currentChallenger)
-                ActionSuccess();
-            else ActionFailed(true);
-        }
-        else if (phaseNum == 4)
-        {
-            if (player == currentChallenger)
-                ActionFailed(false);
-            else ActionSuccess();
-        }*/
+        //if (!waitingForInfluenceLoss) return;
+        //waitingForInfluenceLoss = false;
+        //NextPlayerTurn();
     }
 
     public void ActionComplete()
     {
+        //if(!waitingForInfluenceLoss) NextPlayerTurn();
         NextPlayerTurn();
     }
 

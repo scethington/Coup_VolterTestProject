@@ -38,11 +38,51 @@ public class PlayerController_Human : PlayerController
     public override void LoseInfluence()
     {
         //if a card was just revealed, choose that card to lose
+        //HumanLoseInfluence?.Invoke(playerName);
+
+
+
         if (cards.card1.revealed && cards.card1.active) cards.card1.active = false;
         else if (cards.card2.revealed && cards.card2.active) cards.card2.active = false;
         else
         {
-            HumanLoseInfluence?.Invoke(playerName);
+            //is card 1 already out? choose card 2, and vice versa
+            if (!cards.card1.active && cards.card2.active)
+            {
+                cards.card2.active = false;
+            }
+            else if (!cards.card2.active && cards.card1.active)
+            {
+                cards.card1.active = false;
+            }
+            else
+            {
+                //if both cards are active, randomly pick one
+                //make sure chosen card is not a card that could have given the player success
+                bool cardChosen = false;
+                if (Random.Range(0, 2) == 0)
+                {
+                    if (challengedAction != null)
+                    {
+                        if (challengedAction.performableBy != cards.card1.cardName)
+                        {
+                            cards.card1.active = false;
+                            cardChosen = true;
+                        }
+                    }
+                    else if (challengedCounteraction != null)
+                    {
+                        if (!challengedCounteraction.CounteractableBy.Contains(cards.card1.cardName))
+                        {
+                            cards.card1.active = false;
+                            cardChosen = true;
+                        }
+                    }
+                }
+                if (!cardChosen)
+                    cards.card2.active = false;
+            }
         }
+        LostCard();
     }
 }
