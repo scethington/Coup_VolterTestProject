@@ -1,0 +1,19 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class Action_Tax : Action
+{
+    public override void PerformAction(string performer, string target)
+    {
+        performerController = PlayersManager.instance.GetPlayerController(performer);
+        performerController.coins.UpdateCoins(3);
+        base.PerformAction(performer, target);
+    }
+
+    public override void Failed(bool getRefund)
+    {
+        performerController.coins.UpdateCoins(-3);
+        base.Failed(getRefund);
+    }
+}
